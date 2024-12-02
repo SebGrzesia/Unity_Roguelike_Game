@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -41,11 +42,34 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
             board.InitializeTiles(tileProperties);
         }
 
+        GenerateItems();
         //Player.SpawnPlayer(this, roomA);
+    }
+
+    private void GenerateItems()
+    {
+        Debug.Log("Generating items");
+        var placementHelper = new ItemPlacementHelper(
+            MapData.Instance.Rooms.SelectMany(room => room).ToHashSet(),
+            MapData.Instance.Rooms.SelectMany(room => room).Except(MapData.Instance.Corridors).ToHashSet()
+            );
+
+        ItemSpawner itemSpawner = FindObjectOfType<ItemSpawner>();
+        if ( itemSpawner != null )
+        {
+            itemSpawner.SpawnItems( placementHelper );
+        }
+        else
+        {
+            Debug.LogError("ItemSpawner not found in the scene");
+        }
     }
 
     private void CreateRoom(Dictionary<Vector2Int, TitleProperties> tileProperties)
     {
+        //clear singleton Map data
+        MapData.Instance.ClearData();
+
         roomsList = ProceduralGerationAlgorithms.BinarySpacePartitioning(
             new BoundsInt((Vector3Int)startPossition, new Vector3Int(dungeonWidth, dungeonHeight, 0)),
             minRoomWidth,
@@ -61,8 +85,22 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         else
         {
             floor = CreateSimpleRooms(roomsList);
-
         }
+
+        //Add rooms to singleton Map
+        foreach (var room in roomsList)
+        {
+            HashSet<Vector2Int> roomFloor = new HashSet<Vector2Int>();
+            for (int col = offset; col < room.size.x - offset; col++)
+            {
+                for (int row = offset; row < room.size.y; row++)
+                {
+                    Vector2Int position = (Vector2Int)room.min + new Vector2Int(row, col);
+                    roomFloor.Add(position);
+                }
+            }
+            MapData.Instance.AddRoom(roomFloor);
+        } 
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         foreach (var room in roomsList)
@@ -71,6 +109,10 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         }
 
         HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
+
+        //Add coridor to singleton Map
+        MapData.Instance.AddCorridors(corridors);
+
         floor.UnionWith(corridors);
 
         foreach (var position in floor)
@@ -82,7 +124,8 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
         }
 
         tilemapVisualizer.PaintFloorTiles(floor);
-        WallGenerator.CreateWalls(floor, tilemapVisualizer, tileProperties);
+        var wallPositions = WallGenerator.CreateWalls(floor, tilemapVisualizer, tileProperties);
+        MapData.Instance.AddWalls(wallPositions);
     }
 
     private HashSet<Vector2Int> CreateRoomsRandomly(List<BoundsInt> roomsList)

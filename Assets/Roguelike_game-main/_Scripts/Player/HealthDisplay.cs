@@ -9,10 +9,12 @@ public class HealthDisplay : MonoBehaviour
     public Image[] hearts;
 
     public PlayerHealth playerHealth;
+    private Color color;
 
     private void Start()
     {
         hearts = GetComponentsInChildren<Image>();
+        color = Color.white;
     }
 
     public void SetPlayerHealth(PlayerHealth health)
@@ -30,11 +32,15 @@ public class HealthDisplay : MonoBehaviour
             if (i < maxHealth)
             {
                 hearts[i].enabled = true;
-                hearts[i].sprite = i < health ? fullHeart : null;
+                //hearts[i].sprite = i < health ? fullHeart : null;
+                color.a = i < health ? 1 : 0 ;
+                hearts[i].color = color;
             }
             else
             {
-                hearts[i].enabled = false;
+                //hearts[i].enabled = false;
+                hearts[i].color = color;
+                color.a = 0;
             }
         }
     }

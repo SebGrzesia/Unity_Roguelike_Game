@@ -27,14 +27,19 @@ public class ItemPlacementHelper
                 tileByType[type] = new HashSet<Vector2Int>();
             }
 
-            if (type == PlacementType.NearWall && graph.GetNeighbouts4Directions(position).Count > 0)
+            if (type == PlacementType.NearWall && graph.GetNeighbouts4Directions(position).Count == 2)
                 continue;
             tileByType[type].Add(position);
+        }
+        foreach (var kvp in tileByType)
+        {
+            Debug.Log($"{kvp.Key}: {kvp.Value.Count} positions");
+
         }
     }
 
     public Vector2? GetItemPlacementPositin(PlacementType placementType, int iterationsMax, Vector2Int size, bool addOffset)
-    {
+    { 
         int itemArea = size.x * size.y;
         if (tileByType[placementType].Count < itemArea)
             return null;
@@ -43,8 +48,12 @@ public class ItemPlacementHelper
         while (iteration < iterationsMax)
         {
             iteration++;
+            Debug.Log($"Iteration: {iteration}");
+
             int index = UnityEngine.Random.Range(0, tileByType[placementType].Count);
             Vector2Int position = tileByType[placementType].ElementAt(index);
+
+            Debug.Log($"Trying position: {position}");
 
             if (itemArea > 1)
             {
@@ -52,6 +61,7 @@ public class ItemPlacementHelper
 
                 if (result == false)
                 {
+                    Debug.Log("Failed to place big item.");
                     continue;
                 }
 
@@ -63,6 +73,7 @@ public class ItemPlacementHelper
                 tileByType[placementType].Remove(position);
             }
 
+            Debug.Log($"Placement successful at: {position}");
             return position;
         }
         return null;

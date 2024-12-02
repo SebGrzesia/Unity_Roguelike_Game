@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Graph : MonoBehaviour
+public class Graph
 {
     private static List<Vector2Int> neighbourse4directions = new List<Vector2Int>()
     {
@@ -30,16 +30,19 @@ public class Graph : MonoBehaviour
     public Graph(IEnumerable<Vector2Int> vertices)
     {
         graph = new List<Vector2Int>(vertices);
+        Debug.Log($"Graph initialized with {graph.Count} vertices.");
     }
 
     public List<Vector2Int> GetNeighbouts4Directions(Vector2Int startPosition)
     {
-        return GetNeighbours(startPosition, neighbourse4directions);
+        var neighbours = GetNeighbours(startPosition, neighbourse4directions);
+        return neighbours;
     }
 
     public List<Vector2Int> GetNeighbouts8Directions(Vector2Int startPosition)
     {
-        return GetNeighbours(startPosition, neighbourse8Directions);
+        var neighbours = GetNeighbours(startPosition, neighbourse8Directions);
+        return neighbours;
     }
 
     private List<Vector2Int> GetNeighbours(Vector2Int startPosition, List<Vector2Int> neihboursOffsetList)
