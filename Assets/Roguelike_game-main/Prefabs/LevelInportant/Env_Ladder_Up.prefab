@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1378993370700065727}
   - component: {fileID: 5789096798041803928}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Env_Ladder_Up
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

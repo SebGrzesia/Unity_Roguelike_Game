@@ -52,6 +52,7 @@ public class ItemSpawner : MonoBehaviour
                 }
 
                 nearWallPostion.RemoveAt(randomIndex);
+                placementHelper.occupiedTiles.Add(spawnPosition);
 
                 if (nearWallPostion.Count == 0) break;
             }
@@ -111,6 +112,9 @@ public class ItemSpawner : MonoBehaviour
 
         var openSpacePosition = placementHelper.GetTilesByType(PlacementType.OpenSpace).ToList();
 
+        var corridorPositions = MapData.Instance.Corridors;
+        openSpacePosition.RemoveAll(pos => corridorPositions.Contains(pos));
+
         foreach (var BigObstacle in BigerObstacleToSpawn)
         {
             int quantityToSpawn = Random.Range(BigObstacle.minQuantityPerRoom, BigObstacle.maxQuantityPerRoom);
@@ -132,8 +136,9 @@ public class ItemSpawner : MonoBehaviour
                 }
 
                 openSpacePosition.RemoveAt(randomIndex);
+                placementHelper.occupiedTiles.Add(spawnPosition);
 
-                if(openSpacePosition.Count == 0) break;
+                if (openSpacePosition.Count == 0) break;
             }
         }
     }

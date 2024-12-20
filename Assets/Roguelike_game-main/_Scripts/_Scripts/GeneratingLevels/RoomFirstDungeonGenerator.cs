@@ -53,7 +53,48 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
 
         GenerateEntranceAndExitDor(roomA, roomB, roomC);
 
-        GenerateItems();
+        var placementHelper = new ItemPlacementHelper();
+        ItemSpawner itemSpawner = FindAnyObjectByType<ItemSpawner>();
+
+        if(itemSpawner != null)
+        {
+            itemSpawner.SpawnObstacle1x1(placementHelper);
+            itemSpawner.SpawnBiggerObstacleInOpenSpace(placementHelper);
+        }
+        else
+        {
+            Debug.Log("Item spawner not found");
+        }
+
+        EnemySpawner enemySpawner = FindObjectOfType<EnemySpawner>();
+        DorsInCorridors doorsSpawner = FindObjectOfType<DorsInCorridors>();
+        if (enemySpawner != null)
+        {
+            //Take room A tiles
+            HashSet<Vector2Int> roomATiles = new HashSet<Vector2Int>();
+            foreach (var room in roomsList)
+            {
+                if ((Vector2Int)Vector3Int.RoundToInt(room.center) == roomA)
+                {
+                    for (int x = room.xMin; x <= room.xMax; x++) // Poprawiony zakres dla osi X
+                    {
+                        for (int y = room.yMin; y <= room.yMax; y++) // Poprawiony zakres dla osi Y
+                        {
+                            roomATiles.Add(new Vector2Int(x, y));
+                        }
+                    }
+                    break; // Przerywamy pętlę po znalezieniu roomA
+                }
+            }
+            placementHelper.occupiedTiles.UnionWith(roomATiles);
+            enemySpawner.SpawnEnemies(placementHelper);
+            //doorsSpawner.SpawnDoorsInCorridor();
+
+        }
+        else
+        {
+            Debug.LogWarning("Enemy spawner not found in the scene");
+        }
     }
 
 
@@ -225,11 +266,20 @@ public class RoomFirstDungeonGenerator : RandomWalkDungeonGenerator
                 }
             }
 
-            // Add Generated room to MapData
-            MapData.Instance.AddRoom(roomTiles);
+            if (roomTiles.Count > 0)
+            {
+                // Add Generated room to MapData
+                MapData.Instance.AddRoom(roomTiles);
+                Debug.Log($"Added room with {roomTiles.Count} tiles to MapData.");
+            }
+            else
+            {
+                Debug.LogWarning("Generated room is empty or null, not adding to MapData.");
+            }
         }
         return floor;
     }
+
 
 
     private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)

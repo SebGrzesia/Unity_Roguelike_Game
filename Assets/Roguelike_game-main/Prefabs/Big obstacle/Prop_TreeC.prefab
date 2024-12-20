@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2580684968999494368}
   - component: {fileID: 169902321167922221}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Prop_TreeC
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 4811185279385991541}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.8925347, y: 0.28000468, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 1.8925347, y: 0.2751, z: 0}
+  m_LocalScale: {x: 1, y: 0.9959, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

@@ -6,18 +6,14 @@ public class FindLongestPath : MonoBehaviour
 {
     public static (Vector2Int, Vector2Int, Vector2Int) FindThreeFurthestRooms(List<Vector2Int> roomCenters)
     {
-        // Find start point
         Vector2Int startRoom = roomCenters[0];
 
-        // find farthest point from start point
         var distanceFromStart = Dijkstra(roomCenters, startRoom);
         Vector2Int firstFarthestRoom = GetFarthestRoom(distanceFromStart);
 
-        // find farthest point from previous point
         var distancesFromFirst = Dijkstra(roomCenters, firstFarthestRoom);
         Vector2Int secondFarthestRoom = GetFarthestRoom(distancesFromFirst);
 
-        // Find the third farthest point
         Vector2Int thirdFarthestRoom = GetThirdFarthestRoom(roomCenters, firstFarthestRoom, secondFarthestRoom);
 
         return (firstFarthestRoom, secondFarthestRoom, thirdFarthestRoom);

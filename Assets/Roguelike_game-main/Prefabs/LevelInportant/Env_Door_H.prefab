@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7028262959042948611}
   - component: {fileID: 5177806586464774308}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Env_Door_H
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -556686816, guid: b631ed305dfd43c488e0f8edf5c829bc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

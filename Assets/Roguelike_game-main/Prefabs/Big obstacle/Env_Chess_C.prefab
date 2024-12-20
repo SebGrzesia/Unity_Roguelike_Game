@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 336230665986690686}
   - component: {fileID: 2527892227874999601}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Env_Chess_C
   m_TagString: Obstacle
   m_Icon: {fileID: 0}

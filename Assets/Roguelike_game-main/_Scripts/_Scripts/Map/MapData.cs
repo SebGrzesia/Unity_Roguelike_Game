@@ -41,6 +41,11 @@ public class MapData : MonoBehaviour
 
     public void ClearData()
     {
+        EnemySpawner spawner = FindAnyObjectByType<EnemySpawner>();
+        if (spawner != null)
+        {
+            spawner.DestroyAllChildOfThisObject();
+        }
         Rooms.Clear();
         Corridors.Clear();
         Walls.Clear();
@@ -48,6 +53,13 @@ public class MapData : MonoBehaviour
         Debug.Log("MapData CLeared");
     }
 
+    public void ClearAllEnemies()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
     //public void AddRoom(HashSet<Vector2Int> room)
     //{
     //    if (room == null || room.Count == 0)

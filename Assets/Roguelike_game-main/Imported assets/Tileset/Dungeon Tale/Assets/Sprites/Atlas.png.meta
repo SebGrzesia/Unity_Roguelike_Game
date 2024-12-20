@@ -1538,10 +1538,10 @@ TextureImporter:
       name: Prop_Root_G
       rect:
         serializedVersion: 2
-        x: 190
-        y: 159
-        width: 25
-        height: 25
+        x: 192
+        y: 160
+        width: 19
+        height: 22
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -2588,9 +2588,9 @@ TextureImporter:
       name: Env_Altar
       rect:
         serializedVersion: 2
-        x: 406
+        x: 419
         y: 96
-        width: 59
+        width: 35
         height: 32
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -3071,10 +3071,10 @@ TextureImporter:
       name: Prop_TreeC
       rect:
         serializedVersion: 2
-        x: 363
-        y: 367
-        width: 18
-        height: 38
+        x: 365
+        y: 368
+        width: 16
+        height: 36
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
